@@ -16,15 +16,15 @@ class DefaultController extends AbstractController
         return $this->render('default/home.html.twig');
     }
 
-    /**
-     * @Route(path="/{name}", methods={"GET"})
-     * @param $name
-     * @return string
-     */
-    public function getName($name)
-    {
-        return $this->render('default/getName.html.twig', [
-            'name' => $name
-        ]);
-    }
+//    /**
+//     * @Route(path="/{name}", methods={"GET"})
+//     * @param $name
+//     * @return string
+//     */
+//    public function getName($name)
+//    {
+//        return $this->render('default/getName.html.twig', [
+//            'name' => $name
+//        ]);
+//    }
 }
