@@ -1,5 +1,4 @@
-/.idea
-/docker
+
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/

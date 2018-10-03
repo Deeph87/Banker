@@ -1,0 +1,22 @@
+{%  extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des articles</h1>
+
+    {% for article in articles %}
+        <p>
+            - {{ article.title }} -
+            <a href="{{ path("app_article_show",{"id" : article.id}) }}" class="waves-effect waves-light btn">
+                show
+            </a>
+        </p>
+    {% else %}
+            No one article yet
+    {% endfor %}
+
+    <a href="{{ path("add") }}" class="waves-effect waves-light btn">add</a>
+
+{% endblock %}

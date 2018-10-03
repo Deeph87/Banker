@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Brixton le Brave
+ * Date: 03/10/2018
+ * Time: 09:54
+ */
 
 namespace App\Entity;
 
@@ -9,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Article
  *
  * @ORM\Entity
- * @ORM\Table(schema="toto")
+ * @ORM\Table(name="article")
  */
 class Article
 {
@@ -23,8 +29,8 @@ class Article
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank(message="Veuillez choisir un titre !")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez choisir un titre")
      */
     private $title;
 
@@ -41,9 +47,9 @@ class Article
     private $content = "";
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -51,17 +57,16 @@ class Article
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
 
     /**
      * @param string $title
-     *
      * @return Article
      */
-    public function setTitle(string $title): Article
+    public function setTitle($title)
     {
         $this->title = $title;
         return $this;
@@ -70,17 +75,16 @@ class Article
     /**
      * @return string
      */
-    public function getSlug(): string
+    public function getSlug()
     {
         return $this->slug;
     }
 
     /**
      * @param string $slug
-     *
      * @return Article
      */
-    public function setSlug(string $slug):? Article
+    public function setSlug($slug)
     {
         $this->slug = $slug;
         return $this;
@@ -89,19 +93,19 @@ class Article
     /**
      * @return string
      */
-    public function getContent(): string
+    public function getContent()
     {
         return $this->content;
     }
 
     /**
      * @param string $content
-     *
      * @return Article
      */
-    public function setContent(string $content): Article
+    public function setContent($content)
     {
         $this->content = $content;
         return $this;
     }
+
 }
