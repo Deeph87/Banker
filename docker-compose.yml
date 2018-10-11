@@ -1,33 +1,37 @@
-version: '3'
+version: '3.7'
+
 services:
-    mysql:
-        image: 'mysql:5.7'
-        ports:
-            - '3306:3306'
-        volumes:
-            - './docker/database:/var/lib/mysql'
-        environment:
-            - MYSQL_DATABASE=docker
-            - MYSQL_USER=docker
-            - MYSQL_PASSWORD=docker
-            - MYSQL_RANDOM_ROOT_PASSWORD=yes
-    adminer:
-        image: 'adminer:latest'
-        ports:
-            - '8081:8080'
-    php:
-        image: 'okty/php:7.2'
-        volumes:
-            - './:/usr/share/nginx/html'
-        environment:
-            - 'PHP_EXTENSIONS=pdo_mysql,intl,opcache'
-    nginx:
-        image: 'okty/nginx:1.14'
-        ports:
-            - '8080:80'
-        volumes:
-            - './:/usr/share/nginx/html'
-        environment:
-            - MAX_UPLOAD_SIZE=2M
-            - PHP_CONTAINER_ID=php
-            - INDEX_SUBFOLDER=public
+
+  composer:
+    container_name: ${DOCKER_PREFIX}composer
+    restart: "no"
+    build: ./docker/composer
+    volumes:
+      - .:/app
+    command: install
+
+  db:
+    container_name: ${DOCKER_PREFIX}postgres
+    build: ./docker/postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes:
+      - ./docker/postgres-data/:/var/lib/postgresql/data/
+
+  nginx:
+    container_name: ${DOCKER_PREFIX}nginx
+    build: ./docker/nginx
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - './:/usr/share/nginx/html'
+    depends_on:
+      - db
+      - php
+
+  php:
+    container_name: ${DOCKER_PREFIX}php
+    build: ./docker/php
+    volumes:
+      - './:/usr/share/nginx/html'
