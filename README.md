@@ -1,11 +1,16 @@
-# Save-money
+# Banker
 
-## Introduction
+## Prerequisites
 
-> An helpful app to manage your money"
+* Docker
+* Docker-compose 
+* make
 
-## Installation
+## How to run
 
-> `docker-compose up -d`
+* Copy `.env.dist` and paste as `.env`. Change vars according to your needs
+* Run `make` (or `docker-compose up -d --build`)
 
-Your app at : http://localhost:8080/
+## How to stop
+
+* Run `make down` (or `docker-compose down`)

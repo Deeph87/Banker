@@ -1,4 +1,5 @@
-
+/.idea
+/docker/postgres-data/
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/
