@@ -17,7 +17,9 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
     volumes:
-      - ./docker/postgres-data/:/var/lib/postgresql/data/
+      - postgres_database:/var/lib/postgresql/data/
+    ports:
+      - '5432:5432'
 
   nginx:
     container_name: ${DOCKER_PREFIX}nginx
@@ -35,3 +37,7 @@ services:
     build: ./docker/php
     volumes:
       - './:/usr/share/nginx/html'
+
+volumes:
+    postgres_database:
+        external: true
