@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/default")
+ * @Route("/")
  *
  * Class DefaultController
  * @package App\Controller
@@ -28,16 +28,5 @@ class DefaultController extends AbstractController
     public function indexAction()
     {
         return $this->render('default/index.html.twig');
-    }
-
-    /**
-     * @Route(path="/{name}", methods={"GET"})
-     *
-     * @return string
-     */
-
-    public function viewAction($name)
-    {
-        return $this->render('default/view.html.twig', ["name" => $name]);
     }
 }
