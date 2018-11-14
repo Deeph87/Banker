@@ -13,6 +13,9 @@
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
         <ul class="right hide-on-med-and-down">
             <li><a href="#">Admin</a></li>
+            {% if is_granted('ROLE_USER') %}
+                <li><a href="/logout">Logout</a></li>
+            {% endif %}
         </ul>
 
         <ul id="nav-mobile" class="sidenav">

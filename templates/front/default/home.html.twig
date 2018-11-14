@@ -5,5 +5,8 @@
 {% block body %}
 
     Index of \DefaultController
+    {% if is_granted('ROLE_USER') %}
+        <div class="alert alert-success">Logged as {{ app.user.email }}</div>
+    {% endif %}
 
 {% endblock %}

@@ -1,5 +1,5 @@
 <?php
-
+// src/Security/LoginFormAuthenticator.php
 namespace App\Security;
 
 use App\Entity\User;
@@ -43,7 +43,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-        dd($request);
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
@@ -85,8 +84,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->router->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->router->generate('app_front_default_home'));
     }
 
     protected function getLoginUrl()

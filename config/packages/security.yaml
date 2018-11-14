@@ -1,12 +1,11 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
     encoders:
-        # use your user class name here
         App\Entity\User:
-            # bcrypt or argon2i are recommended
-            # argon2i is more secure, but requires PHP 7.2 or the Sodium extension
             algorithm: argon2i
-            cost: 12
 
     providers:
         app_user_provider:
@@ -20,10 +19,9 @@ security:
             security: false
         main:
             anonymous: true
-
             form_login:
-                check_path: app_front_security_login
-                login_path: app_front_security_login
+                check_path: app_login
+                login_path: app_login
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: app_front_default_home
                 provider: app_user_provider
