@@ -5,7 +5,7 @@
  * Date: 01/10/2018
  * Time: 10:34
  */
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +20,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route(path="/", methods={"GET"})
+     * @return Response
      *
-     * @return string
+     * @Route(name="app_front_default_home", path="/", methods={"GET"})
      */
-
-    public function indexAction()
+    public function home()
     {
-        return $this->render('default/index.html.twig');
+        return $this->render('front/default/home.html.twig');
     }
 }
