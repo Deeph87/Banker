@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d04b4dd03b3af8ebb678d6a8345182d2",
+    "content-hash": "310ea9620042f161617cde0cef34f5e4",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2822,16 +2822,16 @@
         },
         {
             "name": "symfony/form",
-            "version": "v4.1.5",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/form.git",
-                "reference": "50a5fd0eb801aff0c4b50875050d10e4cdeed617"
+                "reference": "c686aef2f1ef79896496982ad65a6eab4110c1e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/form/zipball/50a5fd0eb801aff0c4b50875050d10e4cdeed617",
-                "reference": "50a5fd0eb801aff0c4b50875050d10e4cdeed617",
+                "url": "https://api.github.com/repos/symfony/form/zipball/c686aef2f1ef79896496982ad65a6eab4110c1e0",
+                "reference": "c686aef2f1ef79896496982ad65a6eab4110c1e0",
                 "shasum": ""
             },
             "require": {
@@ -2899,7 +2899,7 @@
             ],
             "description": "Symfony Form Component",
             "homepage": "https://symfony.com",
-            "time": "2018-09-30T03:38:13+00:00"
+            "time": "2018-10-30T17:00:46+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -3969,16 +3969,16 @@
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v4.1.5",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "5d04c3176ca76b8a061b4dabf4ce385f3e8e5aa1"
+                "reference": "1163903123399ee72c128f5bdb64f0e07c839b81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/5d04c3176ca76b8a061b4dabf4ce385f3e8e5aa1",
-                "reference": "5d04c3176ca76b8a061b4dabf4ce385f3e8e5aa1",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/1163903123399ee72c128f5bdb64f0e07c839b81",
+                "reference": "1163903123399ee72c128f5bdb64f0e07c839b81",
                 "shasum": ""
             },
             "require": {
@@ -4045,7 +4045,7 @@
             ],
             "description": "Symfony SecurityBundle",
             "homepage": "https://symfony.com",
-            "time": "2018-09-21T12:49:42+00:00"
+            "time": "2018-10-28T18:38:52+00:00"
         },
         {
             "name": "symfony/serializer",
@@ -4455,16 +4455,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v4.1.5",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "b9646185d3e9bee7b6164be431393e9be8635adc"
+                "reference": "efa06dd08afa7965b55f29aa5654c98e00528583"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/b9646185d3e9bee7b6164be431393e9be8635adc",
-                "reference": "b9646185d3e9bee7b6164be431393e9be8635adc",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/efa06dd08afa7965b55f29aa5654c98e00528583",
+                "reference": "efa06dd08afa7965b55f29aa5654c98e00528583",
                 "shasum": ""
             },
             "require": {
@@ -4537,7 +4537,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2018-09-30T03:38:13+00:00"
+            "time": "2018-10-14T19:02:12+00:00"
         },
         {
             "name": "symfony/web-link",

@@ -15,6 +15,9 @@
             <li><a href="#">Admin</a></li>
             {% if is_granted('ROLE_USER') %}
                 <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Sign in</a></li>
             {% endif %}
         </ul>
 
