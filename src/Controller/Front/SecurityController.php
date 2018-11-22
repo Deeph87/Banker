@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use App\Security\LoginFormAuthenticator;
 
 class SecurityController extends AbstractController
 {
@@ -46,7 +48,7 @@ class SecurityController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginFormAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler)
     {
         if ($this->getUser() instanceof User) {
             return $this->redirectToRoute('app_front_default_home');
@@ -61,7 +63,12 @@ class SecurityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->redirectToRoute('app_front_security_login');
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,          // the User object you just created
+                $request,
+                $authenticator, // authenticator whose onAuthenticationSuccess you want to use
+                'main'          // the name of your firewall in security.yaml
+            );
         }
         return $this->render(
             'front/security/register.html.twig', [
