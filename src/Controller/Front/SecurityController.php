@@ -38,6 +38,10 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
+        $this->addFlash(
+            'danger',
+            'Vous êtes bien déconnecté.'
+        );
         throw new \Exception('This should never be reached!');
     }
 
@@ -63,11 +67,15 @@ class SecurityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+            $this->addFlash(
+                'success',
+                'Vous êtes bien inscrits.'
+            );
             return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,          // the User object you just created
+                $user,
                 $request,
-                $authenticator, // authenticator whose onAuthenticationSuccess you want to use
-                'main'          // the name of your firewall in security.yaml
+                $authenticator,
+                'main'
             );
         }
         return $this->render(

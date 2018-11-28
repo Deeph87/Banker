@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Account;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,7 +17,13 @@ class AccountType extends AbstractType
         $builder
             ->add('name')
             ->add('balance')
-            ->add('state')
+            ->add('state', ChoiceType::class, array(
+                'required' =>false,
+                'choices' => array(
+                    'Closed' => '0',
+                    'Opened' => '1'
+                ),
+            ))
             ->add('users', EntityType::class, array(
                 'class' => User::class,
                 'choice_label' => 'email',
