@@ -39,7 +39,6 @@ class AccountController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $account->addUser($this->getUser());
-            $account->setState(1);
             $em->persist($account);
             $em->flush();
 

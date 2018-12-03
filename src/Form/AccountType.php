@@ -17,13 +17,6 @@ class AccountType extends AbstractType
         $builder
             ->add('name')
             ->add('balance')
-            ->add('state', ChoiceType::class, array(
-                'required' =>false,
-                'choices' => array(
-                    'Closed' => '0',
-                    'Opened' => '1'
-                ),
-            ))
             ->add('users', EntityType::class, array(
                 'class' => User::class,
                 'choice_label' => 'email',
