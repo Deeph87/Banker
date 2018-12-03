@@ -29,6 +29,9 @@ class UserFixture extends Fixture
                 $user,
                 'password123'
             ));
+            $user->setFirstname($faker->firstName);
+            $user->setLastname($faker->lastName);
+            $user->setPseudo($faker->userName);
             $manager->persist($user);
         }
 
