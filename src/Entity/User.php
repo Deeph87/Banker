@@ -67,6 +67,7 @@ class User implements UserInterface
      */
     private $lastname;
 
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="me", orphanRemoval=true)
      */
     private $friendships;
@@ -257,6 +258,9 @@ class User implements UserInterface
     {
         $this->pseudo = $pseudo;
 
+        return $this;
+    }
+
     /**
      * @return Collection|Friendship[]
      */
@@ -295,6 +299,9 @@ class User implements UserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
 
     public function removeFriendship(Friendship $friendship): self
     {
