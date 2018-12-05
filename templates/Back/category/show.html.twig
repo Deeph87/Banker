@@ -3,12 +3,6 @@
 {% block title %}Banker - Category{% endblock %}
 
 {% block body %}
-    <h1>Create new category</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Save</button>
-    {{ form_end(form) }}
-
+    <h1>Category {{ category.name }}</h1>
     <a class="waves-effect waves-light btn-small" href="{{ path('category_index') }}">Back to the list</a>
 {% endblock %}

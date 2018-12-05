@@ -3,16 +3,46 @@
 {% block title %}Banker - Category{% endblock %}
 
 {% block body %}
-    <h1>Create new category</h1>
+    <h1>List of categories</h1>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Save</button>
-    {{ form_end(form) }}
-    {% if category is defined %}
-        {{ category }}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="card-panel {{ label }} darken-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <table class="responsive-table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    {% if categories is empty %}
+        </table>
+        <div class="card-panel yellow darken-4">No categories</div>
+    {% else %}
+        <tbody>
+        {% for category in categories %}
+
+            <tr>
+                <td>{{ category.name }}</td>
+                <td>
+                    <a href="{{ path('category_show', {'id': category.id}) }}"
+                       class="waves-effect waves-light btn-small">show</a>
+                    <a href="{{ path('category_edit', {'id': category.id}) }}"
+                       class="waves-effect waves-light btn-small">edit</a>
+                    <a href="{{ path('category_delete', {'id': category.id, '_token': csrf_token('delete-item')}) }}"
+                       class="waves-effect waves-light btn-small">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
     {% endif %}
 
-
-    {#<a href="{{ path('category_index') }}">back to list</a>#}
+    <a class="waves-effect waves-light btn-small" href="{{ path('category_new') }}">Add new category</a>
 {% endblock %}

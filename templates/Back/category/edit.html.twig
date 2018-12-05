@@ -3,11 +3,11 @@
 {% block title %}Banker - Category{% endblock %}
 
 {% block body %}
-    <h1>Create new category</h1>
+    <h1>Edit category {{ (category.name is defined) ? category.name : '' }}</h1>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">Save</button>
+        <button class="btn">Update</button>
     {{ form_end(form) }}
 
     <a class="waves-effect waves-light btn-small" href="{{ path('category_index') }}">Back to the list</a>
