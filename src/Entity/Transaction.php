@@ -70,7 +70,7 @@ class Transaction
 
     public function getUser(): ?User
     {
-        return $this->account;
+        return $this->user;
     }
 
     public function setUser(?User $user): self
