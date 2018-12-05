@@ -14,20 +14,14 @@
     {% endfor %}
 
     <table class="responsive-table">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-
-    {% if categories is empty %}
-        </table>
-        <div class="card-panel yellow darken-4">No categories</div>
-    {% else %}
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
         <tbody>
         {% for category in categories %}
-
             <tr>
                 <td>{{ category.name }}</td>
                 <td>
@@ -39,10 +33,13 @@
                        class="waves-effect waves-light btn-small">Delete</a>
                 </td>
             </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">No categories recorded</td>
+            </tr>
         {% endfor %}
         </tbody>
-        </table>
-    {% endif %}
+    </table>
 
     <a class="waves-effect waves-light btn-small" href="{{ path('category_new') }}">Add new category</a>
 {% endblock %}
