@@ -43,7 +43,7 @@ class CategoryController extends AbstractController
             $em->flush();
 
             $this->addFlash(
-                'green',
+                'success',
                 'Category ' . $category->getName() . ' successfully added!'
             );
 
@@ -80,7 +80,7 @@ class CategoryController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash(
-                'green',
+                'success',
                 'Category ' . $category->getName() . ' successfully edited!'
             );
 
@@ -101,7 +101,7 @@ class CategoryController extends AbstractController
      */
     public function delete(Request $request, Category $category): Response
     {
-        if (!$this->isCsrfTokenValid('delete-item', $request->query->get('_token'))) {
+        if (!$this->isCsrfTokenValid('delete' . $category->getId(), $request->query->get('_token'))) {
             throw new AccessDeniedException('Access Denied');
         }
 
@@ -112,7 +112,7 @@ class CategoryController extends AbstractController
         $em->flush();
 
         $this->addFlash(
-            'green',
+            'success',
             'Category ' . $categoryName . ' successfully deleted!'
         );
 

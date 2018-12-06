@@ -3,6 +3,36 @@
 {% block title %}Banker - Category{% endblock %}
 
 {% block body %}
-    <h1>Category {{ category.name }}</h1>
-    <a class="waves-effect waves-light btn-small" href="{{ path('category_index') }}">Back to the list</a>
+    <h1>Category</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ transaction.id }}</td>
+        </tr>
+        <tr>
+            <th>Amount</th>
+            <td>{{ transaction.amount }}</td>
+        </tr>
+        <tr>
+            <th>Owner</th>
+            <td>{{ transaction.user }}</td>
+        </tr>
+        <tr>
+            <th>Account</th>
+            <td>{{ transaction.account }}</td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>{{ transaction.category }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('category_index') }}">back to list</a>
+
+    <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+
+    {{ include('back/category/_delete_form.html.twig') }}
 {% endblock %}
