@@ -8,7 +8,7 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +18,11 @@ class TransactionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Amount', NumberType::class)
+            ->add('amount', NumberType::class, [
+                'rounding_mode' => NumberToLocalizedStringTransformer::ROUND_CEILING,
+                'scale'         => 2
+
+            ])
             ->add('account', EntityType::class, [
                 'label'        => 'Account',
                 'class'        => Account::class,

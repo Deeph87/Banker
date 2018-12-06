@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Transaction;
 use App\Form\TransactionType;
 use App\Repository\TransactionRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class TransactionController extends AbstractController
      */
     public function index(TransactionRepository $transactionRepository): Response
     {
-        return $this->render('back/transaction/index.html.twig', ['transactions' => $transactionRepository->findAll()]);
+        return $this->render('Back/transaction/index.html.twig', ['transactions' => $transactionRepository->findAll()]);
     }
 
     /**
@@ -33,11 +34,7 @@ class TransactionController extends AbstractController
      */
     public function new(Request $request): Response
     {
-//        $em = $this->getDoctrine()->getManager();
         $transaction = new Transaction();
-//        $options = [
-//            'categories' => $em->getRepository(Category::class)->findAll()
-//        ];
 
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
@@ -50,7 +47,7 @@ class TransactionController extends AbstractController
             return $this->redirectToRoute('transaction_index');
         }
 
-        return $this->render('back/transaction/new.html.twig', [
+        return $this->render('Back/transaction/new.html.twig', [
             'transaction' => $transaction,
             'form' => $form->createView(),
         ]);
@@ -63,7 +60,7 @@ class TransactionController extends AbstractController
      */
     public function show(Transaction $transaction): Response
     {
-        return $this->render('back/transaction/show.html.twig', ['transaction' => $transaction]);
+        return $this->render('Back/transaction/show.html.twig', ['transaction' => $transaction]);
     }
 
     /**
@@ -72,18 +69,19 @@ class TransactionController extends AbstractController
      * @param Transaction $transaction
      * @return Response
      */
-    public function edit(Request $request, Transaction $transaction): Response
+    public function edit(Request $request, Transaction $transaction, LoggerInterface $logger): Response
     {
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $logger->debug($transaction->getAmount());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('transaction_edit', ['id' => $transaction->getId()]);
         }
 
-        return $this->render('back/transaction/edit.html.twig', [
+        return $this->render('Back/transaction/edit.html.twig', [
             'transaction' => $transaction,
             'form' => $form->createView(),
         ]);

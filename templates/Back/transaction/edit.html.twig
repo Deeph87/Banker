@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Transaction</h1>
 
-    {{ include('back/transaction/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('Back/transaction/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('transaction_index') }}">back to list</a>
 
-    {{ include('back/transaction/_delete_form.html.twig') }}
+    {{ include('Back/transaction/_delete_form.html.twig') }}
 {% endblock %}
