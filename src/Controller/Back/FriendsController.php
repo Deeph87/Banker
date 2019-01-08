@@ -2,15 +2,14 @@
 
 namespace App\Controller\Back;
 
-use App\Entity\Friendship;
+use App\Entity\Friendship;g
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\User;
-use Symfony\Component\Validator\Constraints\Choice;
 
 /**
  * @Route("/friends")
@@ -19,6 +18,10 @@ use Symfony\Component\Validator\Constraints\Choice;
  */
 class FriendsController extends AbstractController
 {
+    CONST PENDING = 0;
+    CONST ACCEPTED = 1;
+    CONST REFUSED = 2;
+
     /**
      * @Route("/", name="friends")
      */
@@ -35,11 +38,9 @@ class FriendsController extends AbstractController
      */
     public function add(Request $request)
     {
-        $friendship = new Friendship();
+        $frienship = new Friendship();
 
-        $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository(User::class)->findAllExceptMe($this->getUser()->getId());
-        $form = $this->createFormBuilder($users)
+        $form = $this->createFormBuilder()
             ->add('pseudo', null, array('label' => 'Entrer son pseudo'))
             ->add('Ajouter', SubmitType::class, array('label' => 'Add Friend'))
             ->getForm();
@@ -47,13 +48,21 @@ class FriendsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $friendship = $form->getData();
+            $pseudo = $form->getData(); //get the pseudo sended by post
 
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($task);
-            // $entityManager->flush();
+            $em = $this->getDoctrine()->getManager();
+            /** @var User $user **/
+            $user = $em->getRepository(User::class)->findOneBy(['pseudo' => $pseudo]); //get the user from his pseudo
+
+            try {
+                $frienship->setFriend($user)
+                    ->setMe($this->getUser())
+                    ->setStatus(self::PENDING);
+                $em->persist($frienship);
+                $em->flush();
+            } catch(Exception $e) {
+                printf($e);
+            }
 
             return $this->redirectToRoute('task_success');
         }
