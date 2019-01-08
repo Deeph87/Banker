@@ -2,7 +2,7 @@
 
 namespace App\Controller\Back;
 
-use App\Entity\Friendship;g
+use App\Entity\Friendship;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,7 +38,7 @@ class FriendsController extends AbstractController
      */
     public function add(Request $request)
     {
-        $frienship = new Friendship();
+        $friendship = new Friendship();
 
         $form = $this->createFormBuilder()
             ->add('pseudo', null, array('label' => 'Entrer son pseudo'))
@@ -55,10 +55,10 @@ class FriendsController extends AbstractController
             $user = $em->getRepository(User::class)->findOneBy(['pseudo' => $pseudo]); //get the user from his pseudo
 
             try {
-                $frienship->setFriend($user)
+                $friendship->setFriend($user)
                     ->setMe($this->getUser())
                     ->setStatus(self::PENDING);
-                $em->persist($frienship);
+                $em->persist($friendship);
                 $em->flush();
             } catch(Exception $e) {
                 printf($e);
