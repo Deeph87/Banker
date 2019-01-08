@@ -40,6 +40,13 @@
                         </li>
                         <span class="flex-centered text-light">|</span>
                         <li class="nav-item">
+                            <a class="nav-link" href="/notifications">
+                                <button type="button" class="btn btn-primary">
+                                    Notifications <span class="badge badge-light" id="notifCounter">...</span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/friends">
                                 <button class="btn btn-outline-success">Amis</button>
                             </a>
@@ -100,6 +107,8 @@
                 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
                 crossorigin="anonymous">
         </script>
+        <script src="{{ asset('js/index.js') }}" type="application/javascript"></script>
     {% endblock %}
+    {% block custom_js %} {% endblock %}
 </body>
 </html>

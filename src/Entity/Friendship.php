@@ -17,7 +17,7 @@ class Friendship
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="friendships")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="friendships", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $me;
@@ -28,7 +28,7 @@ class Friendship
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="friendsIveAsked")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="friendsIveAsked", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $friend;

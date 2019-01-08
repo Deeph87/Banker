@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Friend requests{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% for friendship in friendships %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body m-3">
+                    <h5 class="card-title">New friend request !</h5>
+                    <p class="card-text">{{ friendship.me.firstname }} {{ friendship.me.lastname }}</p>
+                    <div class="actions">
+                        <a href="#" data-friend="{{ friendship.me.id }}" class="btn btn-success accept">Accept</a>
+                        <a href="#" data-friend="{{ friendship.me.id }}" class="btn btn-danger decline">Decline</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+           <div class="alert alert-warning col-md-4">
+               <strong>Vous n'avez aucune demande d'ami pour le moment</strong>
+           </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ asset('js/notifications/index.js') }}"></script>
+{% endblock %}
