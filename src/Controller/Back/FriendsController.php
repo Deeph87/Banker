@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use App\Entity\Friendship;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,9 +29,11 @@ class FriendsController extends AbstractController
      */
     public function index()
     {
-        $friends = $this->getUser()->getFriends();
+        $em = $this->getDoctrine()->getManager();
+        $friendships = $em->getRepository(Friendship::class)->findBy(['me' => $this->getUser()]);
+
         return $this->render('friends/index.html.twig', [
-            'friends' => $friends,
+            'friendships' => $friendships,
         ]);
     }
 
@@ -40,9 +43,27 @@ class FriendsController extends AbstractController
     public function add(Request $request)
     {
         $friendship = new Friendship();
+        $nonFriend = [];
+
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository(User::class)->findAll();
+        $friends = $em->getRepository(Friendship::class)->findBy(['friend' => $this->getUser()]);
+
+        foreach ($users as $u)
+            if ($u->getId() == $this->getUser()->getId())
+                continue;
+            else
+                foreach ($friends as $f)
+                    if ($f->getMe()->getId() == $u->getId())
+                        continue;
+                    else
+                        $nonFriend[$u->getPseudo()] = $u->getPseudo();
 
         $form = $this->createFormBuilder()
-            ->add('pseudo', null, array('label' => 'Entrer son pseudo'))
+            ->add('pseudo', ChoiceType::class, array(
+                'label' => 'Entrer son pseudo',
+                'choices' => $nonFriend
+            ))
             ->add('Ajouter', SubmitType::class, array('label' => 'Add Friend'))
             ->getForm();
 
@@ -55,8 +76,10 @@ class FriendsController extends AbstractController
             /** @var User $user **/
             $user = $em->getRepository(User::class)->findOneBy(['pseudo' => $pseudo]); //get the user from his pseudo
 
-            if(is_null($user))
-                return $this->redirectToRoute('task_failed');
+            if(is_null($user)) {
+                $this->addFlash('danger', 'The user doesn\'t exist');
+                return $this->redirectToRoute('friends');
+            }
 
             try {
                 $friendship->setFriend($user)
@@ -68,7 +91,8 @@ class FriendsController extends AbstractController
                 printf($e);
             }
 
-            return $this->redirectToRoute('task_success');
+            $this->addFlash('success', 'Friend request was sended to ' . $pseudo['pseudo']) . '.';
+            return $this->redirectToRoute('friends');
         }
 
         return $this->render('friends/add.html.twig', [
@@ -99,7 +123,7 @@ class FriendsController extends AbstractController
     /**
      * @Route("/decline/{id}", name="friend_decline")
      */
-    public function declineFriend(Request $request, User $user)
+    public function declineFriend(User $user)
     {
         $em = $this->getDoctrine()->getManager();
 
