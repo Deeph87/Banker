@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Friendship;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use phpDocumentor\Reflection\Types\String_;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
