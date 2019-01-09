@@ -30,7 +30,9 @@ class FriendsController extends AbstractController
     public function index()
     {
         $em = $this->getDoctrine()->getManager();
-        $friendships = $em->getRepository(Friendship::class)->findBy(['me' => $this->getUser()]);
+        $meFriendships = $em->getRepository(Friendship::class)->findBy(['me' => $this->getUser()]);
+        $otherFriendships = $em->getRepository(Friendship::class)->findBy(['friend' => $this->getUser()]);
+        $friendships = array_merge($meFriendships, $otherFriendships);
 
         return $this->render('friends/index.html.twig', [
             'friendships' => $friendships,
@@ -52,12 +54,14 @@ class FriendsController extends AbstractController
         foreach ($users as $u)
             if ($u->getId() == $this->getUser()->getId())
                 continue;
-            else
+            else if ($friends)
                 foreach ($friends as $f)
                     if ($f->getMe()->getId() == $u->getId())
                         continue;
                     else
                         $nonFriend[$u->getPseudo()] = $u->getPseudo();
+            else
+                $nonFriend[$u->getPseudo()] = $u->getPseudo();
 
         $form = $this->createFormBuilder()
             ->add('pseudo', ChoiceType::class, array(

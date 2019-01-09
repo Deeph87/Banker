@@ -5,6 +5,7 @@ $(".accept").on('click', function () {
         if(data === 1)
             location.reload();
     });
+    $(this).parent().replaceWith('<button type="button" class="btn btn-outline btn-outline-success disabled">Accepted !</button>');
 });
 
 $(".decline").on('click', function () {
@@ -14,4 +15,5 @@ $(".decline").on('click', function () {
         if(data === 1)
             location.reload();
     });
+    $(this).parent().replaceWith('<button type="button" class="btn btn-outline btn-outline-danger disabled">Declined !</button>');
 });

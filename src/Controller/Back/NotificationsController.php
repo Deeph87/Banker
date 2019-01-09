@@ -27,7 +27,7 @@ class NotificationsController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         //get friends request of the authenticated user
-        $friendRequests = $em->getRepository(Friendship::class)->findBy(['friend' => $this->getUser()]);
+        $friendRequests = $em->getRepository(Friendship::class)->findMyFriendInvites($this->getUser()->getId());
 
         return $this->render('notifications/index.html.twig', [
             'friendships' => $friendRequests,

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Friendship;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use phpDocumentor\Reflection\Types\String_;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,22 +20,23 @@ class FriendshipRepository extends ServiceEntityRepository
         parent::__construct($registry, Friendship::class);
     }
 
-//    /**
-//     * @return Friendship[] Returns an array of Friendship objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Retrieve current friend invites for the notification timeline
+     * @param String The user ID
+     * @return Friendship[] Returns an array of Friendship objects
+     */
+
+    public function findMyFriendInvites($value)
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
+            ->andWhere('f.friend = :val')
             ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('f.status = 0')
+            ->orderBy('f.updatedAt')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Friendship
