@@ -1,14 +1,39 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
+    encoders:
+        App\Entity\User:
+            algorithm: argon2i
+
     providers:
-        in_memory: { memory: ~ }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            form_login:
+                check_path: app_login
+                login_path: app_login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: app_front_default_home
+                provider: app_user_provider
 
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+
+            logout:
+                path:   /logout
+                target: /
             # activate different ways to authenticate
 
             # http_basic: true
@@ -21,4 +46,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/account, roles: ROLE_USER }

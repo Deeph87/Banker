@@ -29,9 +29,9 @@ class Account
     private $balance;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 1})
      */
-    private $state;
+    private $state = 1;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="accounts")
