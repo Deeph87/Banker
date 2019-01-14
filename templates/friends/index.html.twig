@@ -10,18 +10,34 @@
                 <div class="card m-4" style="width: 18rem;">
                     <img class="card-img-top" src="https://image.flaticon.com/icons/png/512/149/149071.png" alt="Card image cap" width="200px">
                     <div class="card-body">
-                        <h5 class="card-title">{{ friendship.friend.pseudo }}</h5>
-                        <p class="card-text">
+                        {% if friendship.me.pseudo == app.user.pseudo %}
+                            <h5 class="card-title">{{ friendship.friend.pseudo }}</h5>
+                            <p class="card-text">
+                                {% if friendship.status == 0 %}
+                                    Request pending
+                                {% elseif friendship.status == 1 %}
+                                    You are friend with {{ friendship.friend.pseudo }}
+                                {% endif %}
+                            </p>
                             {% if friendship.status == 0 %}
-                                Request pending
+                                <a href="#" class="btn btn-warning">Cancel request</a>
                             {% elseif friendship.status == 1 %}
-                                You are friend with {{ friendship.friend.pseudo }}
+                                <a href="#" class="btn btn-primary">Invite to an account</a>
                             {% endif %}
-                        </p>
-                        {% if friendship.status == 0 %}
-                            <a href="#" class="btn btn-warning">Cancel request</a>
-                        {% elseif friendship.status == 1 %}
-                            <a href="#" class="btn btn-primary">Invite to an account</a>
+                        {% else %}
+                            <h5 class="card-title">{{ friendship.me.pseudo }}</h5>
+                            <p class="card-text">
+                                {% if friendship.status == 0 %}
+                                    Request pending
+                                {% elseif friendship.status == 1 %}
+                                    You are friend with {{ friendship.me.pseudo }}
+                                {% endif %}
+                            </p>
+                            {% if friendship.status == 0 %}
+                                <a href="#" class="btn btn-warning">Cancel request</a>
+                            {% elseif friendship.status == 1 %}
+                                <a href="#" class="btn btn-primary">Invite to an account</a>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
