@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,12 +19,6 @@ class Category
     private $id;
 
     /**
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 50,
-     *      minMessage = "The category name must be at least {{ limit }} characters long",
-     *      maxMessage = "The category name cannot be longer than {{ limit }} characters"
-     * )
      * @ORM\Column(type="string", length=255)
      */
     private $name;

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
@@ -18,9 +17,9 @@ class Transaction
     private $id;
 
     /**
-     * @ORM\Column(type="decimal", scale=2)
+     * @ORM\Column(type="integer")
      */
-    private $amount;
+    private $Amount;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="transactions")
@@ -47,12 +46,12 @@ class Transaction
 
     public function getAmount(): ?int
     {
-        return $this->amount;
+        return $this->Amount;
     }
 
-    public function setAmount(int $amount): self
+    public function setAmount(int $Amount): self
     {
-        $this->amount = $amount;
+        $this->Amount = $Amount;
 
         return $this;
     }
@@ -71,7 +70,7 @@ class Transaction
 
     public function getUser(): ?User
     {
-        return $this->user;
+        return $this->account;
     }
 
     public function setUser(?User $user): self
