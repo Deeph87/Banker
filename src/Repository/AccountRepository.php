@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Account;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,17 @@ class AccountRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Account::class);
+    }
+
+    public function getByLoggedUser(User $user) {
+        $conn = $this->getEntityManager()->getConnection();
+        $query = 'SELECT * 
+            FROM account
+            INNER JOIN account_user ON account.id = account_user.account_id
+            WHERE account_user.user_id = :userId;';
+        $stmt = $conn->prepare($query);
+        $stmt->execute(['userId' => $user->getId()]);
+        return $stmt->fetchAll();
     }
 
 //    /**

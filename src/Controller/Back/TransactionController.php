@@ -2,9 +2,11 @@
 
 namespace App\Controller\Back;
 
+use App\Entity\Account;
 use App\Entity\Category;
 use App\Entity\Transaction;
 use App\Form\TransactionType;
+use App\Repository\AccountRepository;
 use App\Repository\TransactionRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +26,19 @@ class TransactionController extends AbstractController
      */
     public function index(TransactionRepository $transactionRepository): Response
     {
-        return $this->render('Back/transaction/index.html.twig', ['transactions' => $transactionRepository->findAll()]);
+        return $this->render('Back/transaction/index.html.twig', ['transactions' => $transactionRepository->findBy(['user' => $this->getUser()])]);
+    }
+
+    /**
+     * @param TransactionRepository $transactionRepository
+     * @param Account $account
+     * @Route("/account/{id}", name="transaction_index_by_account", methods="GET")
+     * @return Response
+     */
+    public function indexByAccount(TransactionRepository $transactionRepository, Account $account): Response
+    {
+        dump($transactionRepository->findByAccount($account));
+        return $this->render('Back/transaction/index.html.twig', ['transactions' => $transactionRepository->findByAccount($account)]);
     }
 
     /**
