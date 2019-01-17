@@ -36,15 +36,6 @@ class TransactionRepository extends ServiceEntityRepository
         )->setParameter('accountId', $account->getId());
 
         return $query->execute();
-
-
-//        $conn = $this->getEntityManager()->getConnection();
-//        $query = 'SELECT *
-//            FROM transaction
-//            WHERE transaction.account_id = :accountId;';
-//        $stmt = $conn->prepare($query);
-//        $stmt->execute(['accountId' => $account->getId()]);
-//        return $stmt->fetchAll();
     }
 
     /*
