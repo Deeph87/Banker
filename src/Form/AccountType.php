@@ -19,7 +19,7 @@ class AccountType extends AbstractType
             ->add('balance')
             ->add('users', EntityType::class, array(
                 'class' => User::class,
-                'choice_label' => 'email',
+                'choice_label' => 'pseudo',
                 'multiple' => true,
                 'expanded' => true,
             ))
