@@ -25,6 +25,7 @@
                 <td>
                     <a href="{{ path('account_show', {'id': account.id}) }}">show</a>
                     <a href="{{ path('account_edit', {'id': account.id}) }}">edit</a>
+                    <a href="{{ path('transaction_index_by_account', {'id': account.id}) }}">transactions</a>
                 </td>
             </tr>
         {% else %}
