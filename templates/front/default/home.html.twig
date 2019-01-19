@@ -4,9 +4,42 @@
 
 {% block body %}
 
-    Index of \DefaultController
-    {% if is_granted('ROLE_USER') %}
-        <div class="alert alert-success">Logged as {{ app.user.email }}</div>
-    {% endif %}
-
+    <div id="homeCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#homeCarousel" data-slide-to="1"></li>
+            <li data-target="#homeCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="{{ asset('img/carousel/carousel_money.jpg') }}" alt="Carousel Money">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Gardez un oeil sur vos dépenses</h5>
+                    <p>Banker vous permet de faire le point avec votre compte en banque et surveiller vos dépenses.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="{{ asset('img/carousel/carousel_piggy.jpg') }}" alt="Carousel Piggy">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Cagnottes entre amis</h5>
+                    <p>Créer des cagnottes "voyages", "anniversaires", "soirées" entre amis et Banker s'occupe de calculer les créances pour vous :)</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="{{ asset('img/carousel/carousel_bitcoin.jpg') }}" alt="Carousel Bitcoin">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Epargnez avec Banker</h5>
+                    <p>Des études montrent que tenir un journal de comptes aide à épargner et ne pas tomber dans le ... rouge ;)</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#homeCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#homeCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 {% endblock %}

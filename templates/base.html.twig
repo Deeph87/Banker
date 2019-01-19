@@ -3,40 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Banker{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    {% block stylesheets %}{% endblock %}
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    {% block head_css %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    {% endblock %}
+    {% block stylesheets %}<link href="{{ asset('css/style.css') }}" rel="stylesheet" />{% endblock %}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-<nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="#">Admin</a></li>
-            {% if is_granted('ROLE_USER') %}
-                <li><a href="/logout">Logout</a></li>
-            {% endif %}
-        </ul>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">Banker</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">S'inscrire</a>
+                        </li>
+                        <span class="flex-centered text-light">|</span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Se connecter</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                <span class="text-center" style="position: absolute;margin-top: 10px; margin-left: -10%;"><strong>{{ app.user.email }}</strong> :</span>
+                            </a>
+                        </li>
+                        <span class="flex-centered text-light">|</span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/notifications">
+                                <button type="button" class="btn btn-primary">
+                                    Notifications <span class="badge badge-light" id="notifCounter">...</span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/friends">
+                                <button class="btn btn-outline-success">Amis</button>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account">
+                                <button class="btn btn-outline-primary">Comptes</button>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('transaction_index') }}">
+                                <button class="btn btn-outline-primary">Transactions</button>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('category_index') }}">
+                                <button class="btn btn-outline-primary">Categories</button>
+                            </a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <span class="flex-centered text-light">|</span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Administration</a>
+                            </li>
+                        {% endif %}
+                        <span class="flex-centered text-light">|</span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">
+                                <button class="btn btn-outline-danger">Deconnexion</button>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <ul id="nav-mobile" class="sidenav">
-            <li><a href="#">Navbar Link</a></li>
-        </ul>
-        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <div class="main-content">
+
+        <div class="container">
+            {% block flash %}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }} col-md-4 offset-4">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endblock %}
+        </div>
+
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+
     </div>
-</nav>
 
-<div class="container">
-    <br><br>
-    {% block body %}{% endblock %}
-</div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('select').formSelect();
-    });
-</script>
-{% block javascripts %}{% endblock %}
+    {% block head_js %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    {% endblock %}
+    {% block javascripts %}
+        <script
+                src="https://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <script src="{{ asset('js/index.js') }}" type="application/javascript"></script>
+    {% endblock %}
+    {% block custom_js %} {% endblock %}
 </body>
 </html>

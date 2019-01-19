@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Account;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -22,19 +23,20 @@ class TransactionRepository extends ServiceEntityRepository
 //    /**
 //     * @return Transaction[] Returns an array of Transaction objects
 //     */
-    /*
-    public function findByExampleField($value)
+
+    public function findByAccount(Account $account)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT t
+        FROM App\Entity\Transaction t
+        WHERE t.account = :accountId
+        ORDER BY t.id ASC'
+        )->setParameter('accountId', $account->getId());
+
+        return $query->execute();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Transaction
