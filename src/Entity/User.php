@@ -47,11 +47,6 @@ class User implements UserInterface
     private $transactions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User")
-     */
-    private $friends;
-
-    /**
 
      * @ORM\Column(type="string", length=40, unique=true)
      */
@@ -81,7 +76,6 @@ class User implements UserInterface
     {
         $this->accounts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
-        $this->friends = new ArrayCollection();
         $this->friendships = new ArrayCollection();
         $this->friendsIveAsked = new ArrayCollection();
     }
@@ -218,32 +212,6 @@ class User implements UserInterface
             if ($transaction->getUser() === $this) {
                 $transaction->setUser(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getFriends(): Collection
-    {
-        return $this->friends;
-    }
-
-    public function addFriend(User $friend): self
-    {
-        if (!$this->friends->contains($friend)) {
-            $this->friends[] = $friend;
-        }
-
-        return $this;
-    }
-
-    public function removeFriend(User $friend): self
-    {
-        if ($this->friends->contains($friend)) {
-            $this->friends->removeElement($friend);
         }
 
         return $this;
