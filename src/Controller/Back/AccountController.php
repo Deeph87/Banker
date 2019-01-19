@@ -24,7 +24,7 @@ class AccountController extends AbstractController
      */
     public function index(AccountRepository $accountRepository): Response
     {
-        return $this->render('account/index.html.twig', ['accounts' => $accountRepository->findAll()]);
+        return $this->render('account/index.html.twig', ['accounts' => $accountRepository->getByLoggedUser($this->getUser())]);
     }
 
     /**

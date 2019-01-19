@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{P6Ho:function(n,o){n.exports="/build/images/logo.e6103942.png"},XENs:function(n,o,s){},ng4s:function(n,o,s){s("XENs");var c=s("P6Ho");'<img src="'.concat(c,'">')}},[["ng4s",0]]]);
