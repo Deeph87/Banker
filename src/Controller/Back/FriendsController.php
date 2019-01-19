@@ -45,28 +45,30 @@ class FriendsController extends AbstractController
     public function add(Request $request)
     {
         $friendship = new Friendship();
-        $nonFriend = [];
+        $usersToAddWithoutMeAndFriends = [];
 
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository(User::class)->findAll();
-        $friends = $em->getRepository(Friendship::class)->findBy(['friend' => $this->getUser()]);
+        $meFriends = $em->getRepository(Friendship::class)->findBy(['friend' => $this->getUser()]);
+        $otherFriends = $em->getRepository(Friendship::class)->findBy(['me' => $this->getUser()]);
 
         foreach ($users as $u)
-            if ($u->getId() == $this->getUser()->getId())
-                continue;
-            else if ($friends)
-                foreach ($friends as $f)
-                    if ($f->getMe()->getId() == $u->getId())
-                        continue;
-                    else
-                        $nonFriend[$u->getPseudo()] = $u->getPseudo();
-            else
-                $nonFriend[$u->getPseudo()] = $u->getPseudo();
+            if ($u->getId() != $this->getUser()->getId())
+                $usersToAddWithoutMeAndFriends[$u->getPseudo()] = $u->getPseudo();
+
+        foreach ($meFriends as $meFriend)
+            if( in_array($meFriend->getMe()->getPseudo(), $usersToAddWithoutMeAndFriends) )
+                unset($usersToAddWithoutMeAndFriends[$meFriend->getMe()->getPseudo()]);
+
+        foreach ($otherFriends as $otherFriend)
+            if( in_array($otherFriend->getFriend()->getPseudo(), $usersToAddWithoutMeAndFriends) )
+                unset($usersToAddWithoutMeAndFriends[$otherFriend->getFriend()->getPseudo()]);
+
 
         $form = $this->createFormBuilder()
             ->add('pseudo', ChoiceType::class, array(
                 'label' => 'Entrer son pseudo',
-                'choices' => $nonFriend
+                'choices' => $usersToAddWithoutMeAndFriends
             ))
             ->add('Ajouter', SubmitType::class, array('label' => 'Add Friend'))
             ->getForm();
@@ -139,6 +141,27 @@ class FriendsController extends AbstractController
 
         $friendship->setStatus(self::REFUSED);
         $em->persist($friendship);
+        $em->flush();
+
+        return new Response(1);
+    }
+
+    /**
+     * @Route("/cancel/{id}", name="friend_cancel")
+     * @param User $user
+     * @return Response
+     */
+    public function cancelFriend(User $user)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Friendship $friendship */
+        $friendship = $em->getRepository(Friendship::class)->findOneBy(['me' => $this->getUser(), 'friend' => $user]);
+
+        if(is_null($friendship))
+            return new Response(0);
+
+        $em->remove($friendship);
         $em->flush();
 
         return new Response(1);
