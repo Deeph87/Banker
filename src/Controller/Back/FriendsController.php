@@ -145,4 +145,25 @@ class FriendsController extends AbstractController
 
         return new Response(1);
     }
+
+    /**
+     * @Route("/cancel/{id}", name="friend_cancel")
+     * @param User $user
+     * @return Response
+     */
+    public function cancelFriend(User $user)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Friendship $friendship */
+        $friendship = $em->getRepository(Friendship::class)->findOneBy(['me' => $this->getUser(), 'friend' => $user]);
+
+        if(is_null($friendship))
+            return new Response(0);
+
+        $em->remove($friendship);
+        $em->flush();
+
+        return new Response(1);
+    }
 }

@@ -20,7 +20,7 @@
                                 {% endif %}
                             </p>
                             {% if friendship.status == 0 %}
-                                <a href="#" class="btn btn-warning">Cancel request</a>
+                                <a href="#" data-friend="{{ friendship.friend.id }}" class="btn btn-warning cancel">Cancel request</a>
                             {% elseif friendship.status == 1 %}
                                 <a href="#" class="btn btn-primary">Invite to an account</a>
                             {% endif %}
@@ -50,4 +50,8 @@
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ asset('js/notifications/index.js') }}"></script>
 {% endblock %}
