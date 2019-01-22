@@ -4,6 +4,7 @@ namespace App\Controller\Back;
 
 use App\Entity\Account;
 use App\Entity\Friendship;
+use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
@@ -33,6 +34,16 @@ class AccountController extends AbstractController
      */
     public function index(AccountRepository $accountRepository): Response
     {
+        /*
+
+        $accounts = $accountRepository->getByLoggedUser($this->getUser());
+        $accountsId = [];
+
+        foreach ($accounts as $a)
+            array_push($accountsId, $accountRepository->find($a['id']));
+
+        dd($accountsId);
+        */
         return $this->render('account/index.html.twig', ['accounts' => $accountRepository->getByLoggedUser($this->getUser())]);
     }
 
@@ -94,7 +105,19 @@ class AccountController extends AbstractController
      */
     public function show(Account $account): Response
     {
-        return $this->render('account/show.html.twig', ['account' => $account]);
+        $em = $this->getDoctrine()->getManager();
+        $transactions = $em->getRepository(Transaction::class)->findBy(['account' => $account]);
+        $totalTransactionsAmount = 0;
+
+        foreach ($transactions as $transaction)
+            $totalTransactionsAmount += $transaction->getAmount();
+
+        $account->setBalance( $account->getBalance() - $totalTransactionsAmount );
+
+        return $this->render('account/show.html.twig', [
+            'account' => $account,
+            'transactions' => $transactions
+        ]);
     }
 
     /**
