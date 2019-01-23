@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}500 Internal Server Error{% endblock %}
+
+{% block body %}
+    <div class="servererror" style="position:absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center;">
+        <div class="servererror-500" style="position: absolute; top: 0%; left: 50%; height: 100px; transform: translateX(-50%); z-index: -1;">
+            <h1 style="color: #ececec; font-weight: 900; font-size: 276px; margin: 0px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">500</h1>
+        </div>
+        <h2>Internal server error!</h2>
+        <p>This page is currently unavailable and will be fixed shortly.</p>
+        <a href="/">Back To Homepage</a>
+    </div>
+{% endblock %}
