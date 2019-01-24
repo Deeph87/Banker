@@ -61,6 +61,7 @@ class AccountController extends AbstractController
             ->add('friends', ChoiceType::class, array(
                 'label' => 'Entrer son pseudo',
                 'multiple' => true,
+                'required' => false,
                 'choices' => $myFriends
             ))
             ->add('Créer', SubmitType::class, array('label' => 'Create an Account'))
@@ -71,9 +72,13 @@ class AccountController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $account->addUser($this->getUser());
 
-            foreach ($form->getData()["friends"] as $f){
-                $user = $em->getRepository(User::class)->findOneBy(['pseudo' => $f]);
-                $account->addUser($user);
+            if($form->getData()["friends"]) {
+
+                foreach ($form->getData()["friends"] as $f){
+                    $user = $em->getRepository(User::class)->findOneBy(['pseudo' => $f]);
+                    $account->addUser($user);
+                }
+
             }
 
             $account->setName($form->getData()["name"]);
