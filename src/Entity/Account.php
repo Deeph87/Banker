@@ -34,14 +34,19 @@ class Account
     private $state = 1;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="accounts")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="accounts", fetch="EAGER")
      */
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="account", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="account", orphanRemoval=true, fetch="EAGER")
      */
     private $transactions;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $balanceInit;
 
     public function __construct()
     {
@@ -149,5 +154,17 @@ class Account
 
     public function __toString(): string {
         return $this->name;
+    }
+
+    public function getBalanceInit(): ?int
+    {
+        return $this->balanceInit;
+    }
+
+    public function setBalanceInit(?int $balanceInit): self
+    {
+        $this->balanceInit = $balanceInit;
+
+        return $this;
     }
 }

@@ -37,19 +37,14 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Account", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Account", mappedBy="users", fetch="EAGER")
      */
     private $accounts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="user", fetch="EAGER")
      */
     private $transactions;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User")
-     */
-    private $friends;
 
     /**
 
@@ -68,12 +63,12 @@ class User implements UserInterface
     private $lastname;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="me", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="me", orphanRemoval=true, fetch="EAGER")
      */
     private $friendships;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="friend", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="friend", orphanRemoval=true, fetch="EAGER")
      */
     private $friendsIveAsked;
 
@@ -81,7 +76,6 @@ class User implements UserInterface
     {
         $this->accounts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
-        $this->friends = new ArrayCollection();
         $this->friendships = new ArrayCollection();
         $this->friendsIveAsked = new ArrayCollection();
     }
@@ -218,32 +212,6 @@ class User implements UserInterface
             if ($transaction->getUser() === $this) {
                 $transaction->setUser(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getFriends(): Collection
-    {
-        return $this->friends;
-    }
-
-    public function addFriend(User $friend): self
-    {
-        if (!$this->friends->contains($friend)) {
-            $this->friends[] = $friend;
-        }
-
-        return $this;
-    }
-
-    public function removeFriend(User $friend): self
-    {
-        if ($this->friends->contains($friend)) {
-            $this->friends->removeElement($friend);
         }
 
         return $this;

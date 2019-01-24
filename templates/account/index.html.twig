@@ -3,38 +3,46 @@
 {% block title %}Account index{% endblock %}
 
 {% block body %}
-    <h1>Account index</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>My accounts</h1>
+            </div>
+            <div class="col-md-6 ">
+                <a href="{{ path('account_new') }}">
+                    <button class="btn btn-primary">
+                        Create account
+                    </button>
+                </a>
+            </div>
+        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Balance</th>
-                <th>State</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+        <div class="row">
+
         {% for account in accounts %}
-            <tr>
-                <td>{{ account.id }}</td>
-                <td>{{ account.name }}</td>
-                <td>{{ account.balance }}</td>
-                <td>{{ account.state }}</td>
-                <td>
-                    <a href="{{ path('account_show', {'id': account.id}) }}">show</a>
-                    <a href="{{ path('account_edit', {'id': account.id}) }}">edit</a>
-                    <a href="{{ path('transaction_index_by_account', {'id': account.id}) }}">transactions</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('account_new') }}">Create new</a>
+            <div class="col-sm-6 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ account.name }}</h3>
+                            <p class="card-text">This account count {{ account.balance }} /  {{ account.balanceInit }}€ right now ! </p>
+                            {% for user in account.users %}
+                                <p>{{ user.pseudo }}</p>
+                            {% endfor %}
+                            {% if account.state == 1 %}
+                                <a href="{{ path('account_show', {'id': account.id}) }}" class="btn btn-primary">
+                                    Visit the account
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+        {% else %}
+            You don't have any accounts. Get started by create you first one!
+        {% endfor %}
+
+        </div>
+    </div>
+
 {% endblock %}

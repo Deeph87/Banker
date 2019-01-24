@@ -29,41 +29,52 @@ class TransactionController extends AbstractController
         return $this->render('Back/transaction/index.html.twig', ['transactions' => $transactionRepository->findBy(['user' => $this->getUser()])]);
     }
 
+
     /**
      * @param TransactionRepository $transactionRepository
      * @param Account $account
      * @Route("/account/{id}", name="transaction_index_by_account", methods="GET")
      * @return Response
      */
+    //TODO: what this shit here ?
+    /*
     public function indexByAccount(TransactionRepository $transactionRepository, Account $account): Response
     {
         dump($transactionRepository->findByAccount($account));
         return $this->render('Back/transaction/index.html.twig', ['transactions' => $transactionRepository->findByAccount($account)]);
     }
+    */
 
     /**
-     * @Route("/new", name="transaction_new", methods="GET|POST")
+     * @Route("/new/{id}", name="transaction_new", methods="GET|POST")
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Account $account): Response
     {
         $transaction = new Transaction();
+        $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(TransactionType::class, $transaction);
-        $form->handleRequest($request);
+        $categories = $em->getRepository(Category::class)->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        if($request->isMethod('post')) {
+
+            $transaction->setAccount($account);
+            $transaction->setAmount($request->get('amount'));
+            $transaction->setCategory($em->getRepository(Category::class)->find($request->request->get('category')));
+            $transaction->setUser($this->getUser());
+            $account->setBalance($account->getBalance()-$request->get('amount'));
             $em->persist($transaction);
+            $em->persist($account);
             $em->flush();
 
-            return $this->redirectToRoute('transaction_index');
+            $this->addFlash('success', 'You\'ve successfully created a transaction (' . $transaction->getAmount() . '€) on this account !');
+            return $this->redirectToRoute('account_show', ['id' => $account->getId()]);
         }
 
         return $this->render('Back/transaction/new.html.twig', [
             'transaction' => $transaction,
-            'form' => $form->createView(),
+            'categories' => $categories
         ]);
     }
 

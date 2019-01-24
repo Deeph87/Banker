@@ -5,13 +5,9 @@
 {% block body %}
     <h1>Create new Account</h1>
 
-    {{ form_start(form) }}
     <div class="col-md-4 col-offset-md-2">
-        {{ form_errors(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.balance) }}
-        {{ form_row(form.users) }}
-        <button class="btn btn-outline-success">{{ button_label|default('Créer >') }}</button>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
         {{ form_end(form) }}
         <div class="row" style="margin-top: 20px"></div>
         <a href="{{ path('account_index') }}" class="btn btn-outline-warning">
