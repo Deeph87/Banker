@@ -5,7 +5,23 @@
 {% block body %}
     <h1>Create new Transaction</h1>
 
-    {{ include('Back/transaction/_form.html.twig') }}
-
-    <a href="{{ path('transaction_index') }}">back to list</a>
+    <form action="#" method="post" class="form-group">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 form-group">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" min="0">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2 form-group">
+                <label for="category">Category</label>
+                <select name="category" id="category" class="form-control form-control-md">
+                    {% for c in categories %}
+                        <option value="{{ c.id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Make transaction</button>
+    </form>
 {% endblock %}
