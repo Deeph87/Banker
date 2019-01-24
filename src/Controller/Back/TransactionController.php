@@ -33,7 +33,7 @@ class TransactionController extends AbstractController
     /**
      * @param TransactionRepository $transactionRepository
      * @param Account $account
-     * @Route("/account/{id}", name="transaction_index_by_account", methods="GET")
+     * @Route("/account/{id}", name="transaction_index_by_account", methods="GET", requirements={"id" = "[0-9]+"})
      * @return Response
      */
     //TODO: what this shit here ?
@@ -46,7 +46,7 @@ class TransactionController extends AbstractController
     */
 
     /**
-     * @Route("/new/{id}", name="transaction_new", methods="GET|POST")
+     * @Route("/new/{id}", name="transaction_new", methods="GET|POST", requirements={"id" = "[0-9]+"})
      * @param Request $request
      * @return Response
      */
@@ -79,7 +79,7 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="transaction_show", methods="GET")
+     * @Route("/{id}", name="transaction_show", methods="GET", requirements={"id" = "[0-9]+"})
      * @param Transaction $transaction
      * @return Response
      */
@@ -89,7 +89,7 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="transaction_edit", methods="GET|POST")
+     * @Route("/{id}/edit", name="transaction_edit", methods="GET|POST", requirements={"id" = "[0-9]+"})
      * @param Request $request
      * @param Transaction $transaction
      * @return Response
@@ -113,7 +113,7 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="transaction_delete", methods="DELETE")
+     * @Route("/{id}", name="transaction_delete", methods="DELETE", requirements={"id" = "[0-9]+"})
      * @param Request $request
      * @param Transaction $transaction
      * @return Response
@@ -127,5 +127,41 @@ class TransactionController extends AbstractController
         }
 
         return $this->redirectToRoute('transaction_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/load-all-transactions-categories-by-account", name="load_all_transactions_categories_by_account", methods="GET")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function loadAllTransactionsCategoriesByAccount(Request $request)
+    {
+        $ret = [];
+        $tmpRet = [];
+        $accountId = $request->get('account_id', null);
+
+        if(!is_null($accountId)){
+            $em = $this->getDoctrine()->getManager();
+            $transactions = $em->getRepository(Account::class)->find($accountId)->getTransactions();
+
+            if(!empty($transactions)){
+                foreach ($transactions as $transaction) {
+                    $categName = $transaction->getCategory()->getName();
+                    $transactionAmount = $transaction->getAmount();
+                    if(!isset($ret[$categName])){
+                        $tmpRet[$categName] = $transactionAmount;
+                    } else {
+                        $tmpRet[$categName] += $transactionAmount;
+                    }
+                }
+
+                if(!empty($tmpRet)){
+                    foreach ($tmpRet as $categ => $amount){
+                        $ret[] = [$categ, $amount];
+                    }
+                }
+            }
+        }
+        return $this->json($ret);
     }
 }

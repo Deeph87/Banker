@@ -3,26 +3,102 @@
 {% block title %}Account{% endblock %}
 
 {% block body %}
-    <h1>{{ account.name }}</h1>
-    <a href="{{ path('account_index') }}" class="btn btn-warning">Back</a>
-    <a href="{{ path('account_edit', {'id': account.id}) }}" class="btn btn-primary">Edit</a>
-    <a href="{{ path('transaction_new', {'id': account.id}) }}" class="btn btn-success">Make transaction</a>
-    {{ include('account/_delete_form.html.twig') }}
-
     <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h3>Balance</h3>
-            <span>{{ account.balance }}</span>
+        <div class="card mb-3 col-md-12">
+            <img class="card-img-top" src="http://www.ccmalta.com/CCM/Images/Bank-Accounts-img.png" alt="Card image cap">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h3 class="card-title">{{ account.name }}</h3>
+                        <p class="card-text">Current balance : {{ account.balance }}. Initial balance : {{ account.balanceInit }}.</p>
+                        <p class="card-text"><small class="text-muted">Last updated {{ account.updatedAt|time_diff }}</small></p>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ path('account_index') }}" class="btn btn-warning">Back</a>
+                        <a href="{{ path('account_edit', {'id': account.id}) }}" class="btn btn-primary">Edit</a>
+                        <a href="{{ path('transaction_new', {'id': account.id}) }}" class="btn btn-success">Make transaction</a>
+                        <a href="{{ path('category_new') }}" class="btn btn-success">Create category</a>
+                        {{ include('account/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        {% for t in transactions %}
-        <div class="col-md-12">
-           {{ (t.user.pseudo == app.user.pseudo)? "Moi" : t.user.pseudo }} : {{ t.amount }}
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="transactions-tab" data-toggle="tab" href="#transactions" role="tab" aria-controls="transactions" aria-selected="true">Transactions</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Members</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="chart-tab" data-toggle="tab" href="#chart" role="tab" aria-controls="chart" aria-selected="false">Chart</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="transactions" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row">
+                {% for t in transactions %}
+                    <div class="card m-4">
+                        <h5 class="card-header">{{ (loop.first) ? '<b>New transaction</b>' : 'Transaction' }}</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Transaction from {{ t.user.pseudo }}</h5>
+                            <p class="card-text">A transaction about {{ t.amount }}€ was succeed for <b>{{ t.category }}</b>.</p>
+                            <a href="{{ path('transaction_show', {'id' : t.id}) }}" class="btn btn-primary">Details</a>
+                        </div>
+                    </div>
+                {% else %}
+                    No one transactions yet
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
+        <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="row">
+                {% for u in account.users %}
+                    <div class="card m-4" style="width: 18rem;">
+                        <img class="card-img-top" src="https://image.flaticon.com/icons/png/512/149/149071.png" alt="Card image cap" width="200px">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ u.pseudo }}</h5>
+                            <p class="card-text">
+
+                                {% for uf in app.user.friendships %}
+                                    {% if (uf.friend == u) %}
+                                        You are already friends with {{ u.pseudo }} since {{ uf.createdAt|time_diff }} :)
+                                    {% endif %}
+                                {% endfor %}
+
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="chart" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="row mt-3">
+                <h2>Chart amount by category :</h2>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <div id="spinner-container">
+                        <div>
+                            <i class="fas fa-spinner fa-spin spinner" style="margin: 0 auto; font-size: 50px; color: #0079ff;"></i>
+                        </div>
+                        <div class="mt-2">
+                            <span style="font-size: 20px">Loading ...</span>
+                        </div>
+                    </div>
+                    <div id="chart-container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
 
+{% endblock %}
+
+{% block custom_js %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ asset('js/chart/ajax.js') }}"></script>
 {% endblock %}

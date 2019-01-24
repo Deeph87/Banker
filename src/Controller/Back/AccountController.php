@@ -107,7 +107,7 @@ class AccountController extends AbstractController
 
         return $this->render('account/show.html.twig', [
             'account' => $account,
-            'transactions' => $transactions
+            'transactions' => array_reverse($transactions)
         ]);
     }
 
