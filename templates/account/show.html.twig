@@ -3,8 +3,6 @@
 {% block title %}Account{% endblock %}
 
 {% block body %}
-
-
     <div class="row">
         <div class="card mb-3 col-md-12">
             <img class="card-img-top" src="http://www.ccmalta.com/CCM/Images/Bank-Accounts-img.png" alt="Card image cap">
@@ -75,9 +73,32 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="tab-pane fade" id="chart" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        <div class="tab-pane fade" id="chart" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="row mt-3">
+                <h2>Chart amount by category :</h2>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <div id="spinner-container">
+                        <div>
+                            <i class="fas fa-spinner fa-spin spinner" style="margin: 0 auto; font-size: 50px; color: #0079ff;"></i>
+                        </div>
+                        <div class="mt-2">
+                            <span style="font-size: 20px">Loading ...</span>
+                        </div>
+                    </div>
+                    <div id="chart-container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
 
+{% endblock %}
+
+{% block custom_js %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ asset('js/chart/ajax.js') }}"></script>
 {% endblock %}

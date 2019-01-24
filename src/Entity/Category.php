@@ -31,7 +31,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="category", cascade={"persist", "remove"})
      */
     private $transactions;
 
