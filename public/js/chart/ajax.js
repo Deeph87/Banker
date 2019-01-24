@@ -41,7 +41,7 @@ function loadChart(data) {
                 y: -10
             },
             tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                pointFormat: '{series.name}: <b>{point.y:.1f}€ ({point.percentage:.1f}%)</b>'
             },
             plotOptions: {
                 pie: {
