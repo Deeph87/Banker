@@ -68,9 +68,10 @@
                             </a>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <span class="flex-centered text-light">|</span>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Administration</a>
+                                <a class="nav-link" href="/admin">
+                                    <button class="btn btn-outline-primary">Admin</button>
+                                </a>
                             </li>
                         {% endif %}
                         <span class="flex-centered text-light">|</span>

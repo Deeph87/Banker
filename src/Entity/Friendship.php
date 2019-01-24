@@ -76,4 +76,8 @@ class Friendship
 
         return $this;
     }
+
+    public function __toString(): string {
+        return $this->friend->getPseudo() . " (" . $this->friend->getFirstname() . " " . $this->friend->getLastname() . ")";
+    }
 }
