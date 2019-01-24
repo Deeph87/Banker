@@ -1,0 +1,27 @@
+{
+  "name": "Banker",
+  "description": "Banker",
+  "repository": "https://github.com/Deeph87/Banker",
+  "keywords": ["Banker", "symfony", "project"],
+  "success_url": "/",
+  "env": {
+    "APP_ENV": "prod",
+    "APP_SECRET": "f182d3ae3b9cc3e038ee1cfcd8e9e8f3"
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "9.5"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "php bin/console doctrine:schema:create && php bin/console doctrine:fixtures:load"
+  }
+}
