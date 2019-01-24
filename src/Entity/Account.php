@@ -43,6 +43,11 @@ class Account
      */
     private $transactions;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $balanceInit;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -149,5 +154,17 @@ class Account
 
     public function __toString(): string {
         return $this->name;
+    }
+
+    public function getBalanceInit(): ?int
+    {
+        return $this->balanceInit;
+    }
+
+    public function setBalanceInit(?int $balanceInit): self
+    {
+        $this->balanceInit = $balanceInit;
+
+        return $this;
     }
 }

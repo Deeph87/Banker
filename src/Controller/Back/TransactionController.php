@@ -63,7 +63,9 @@ class TransactionController extends AbstractController
             $transaction->setAmount($request->get('amount'));
             $transaction->setCategory($em->getRepository(Category::class)->find($request->request->get('category')));
             $transaction->setUser($this->getUser());
+            $account->setBalance($account->getBalance()-$request->get('amount'));
             $em->persist($transaction);
+            $em->persist($account);
             $em->flush();
 
             $this->addFlash('success', 'You\'ve successfully created a transaction (' . $transaction->getAmount() . '€) on this account !');

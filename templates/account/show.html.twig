@@ -18,7 +18,7 @@
     <div class="row">
         {% for t in transactions %}
         <div class="col-md-12">
-            {{ t.amount }}
+           {{ (t.user.pseudo == app.user.pseudo)? "Moi" : t.user.pseudo }} : {{ t.amount }}
         </div>
         {% endfor %}
     </div>

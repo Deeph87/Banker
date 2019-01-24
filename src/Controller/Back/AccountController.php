@@ -34,7 +34,7 @@ class AccountController extends AbstractController
      */
     public function index(): Response
     {
-        
+
         return $this->render('account/index.html.twig', ['accounts' => $this->getUser()->getAccounts()]);
     }
 
@@ -78,6 +78,7 @@ class AccountController extends AbstractController
 
             $account->setName($form->getData()["name"]);
             $account->setBalance($form->getData()["balance"]);
+            $account->setBalanceInit($form->getData()["balance"]);
             $em->persist($account);
             $em->flush();
 
@@ -98,12 +99,6 @@ class AccountController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $transactions = $em->getRepository(Transaction::class)->findBy(['account' => $account]);
-        $totalTransactionsAmount = 0;
-
-        foreach ($transactions as $transaction)
-            $totalTransactionsAmount += $transaction->getAmount();
-
-        $account->setBalance( $account->getBalance() - $totalTransactionsAmount );
 
         return $this->render('account/show.html.twig', [
             'account' => $account,
