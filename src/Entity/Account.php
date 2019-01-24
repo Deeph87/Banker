@@ -34,12 +34,12 @@ class Account
     private $state = 1;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="accounts")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="accounts", fetch="EAGER")
      */
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="account", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="account", orphanRemoval=true, fetch="EAGER")
      */
     private $transactions;
 

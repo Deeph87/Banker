@@ -37,12 +37,12 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Account", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Account", mappedBy="users", fetch="EAGER")
      */
     private $accounts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="user", fetch="EAGER")
      */
     private $transactions;
 
@@ -63,12 +63,12 @@ class User implements UserInterface
     private $lastname;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="me", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="me", orphanRemoval=true, fetch="EAGER")
      */
     private $friendships;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="friend", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Friendship", mappedBy="friend", orphanRemoval=true, fetch="EAGER")
      */
     private $friendsIveAsked;
 

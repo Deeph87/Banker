@@ -32,19 +32,10 @@ class AccountController extends AbstractController
     /**
      * @Route("/", name="account_index", methods="GET")
      */
-    public function index(AccountRepository $accountRepository): Response
+    public function index(): Response
     {
-        /*
-
-        $accounts = $accountRepository->getByLoggedUser($this->getUser());
-        $accountsId = [];
-
-        foreach ($accounts as $a)
-            array_push($accountsId, $accountRepository->find($a['id']));
-
-        dd($accountsId);
-        */
-        return $this->render('account/index.html.twig', ['accounts' => $accountRepository->getByLoggedUser($this->getUser())]);
+        
+        return $this->render('account/index.html.twig', ['accounts' => $this->getUser()->getAccounts()]);
     }
 
     /**
