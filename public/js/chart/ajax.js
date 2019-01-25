@@ -1,11 +1,12 @@
 let body = $('body'),
-    hasBeenAlreadyOpen = false;
+    hasBeenAlreadyOpen = false,
+    accountId = window.location.pathname.split('/')[2];
 
 body.on('click', '#chart-tab', function(){
     if(!hasBeenAlreadyOpen){
         $.ajax({
             url: '/transaction/load-all-transactions-categories-by-account',
-            data: {account_id: 5},
+            data: {account_id: accountId},
             type: 'GET',
             success: function(data) {
                 loadChart(data);
