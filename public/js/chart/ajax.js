@@ -1,7 +1,6 @@
 let body = $('body'),
     hasBeenAlreadyOpen = false,
     accountId = window.location.pathname.split('/')[2];
-    console.log(accountId);
 
 body.on('click', '#chart-tab', function(){
     if(!hasBeenAlreadyOpen){
